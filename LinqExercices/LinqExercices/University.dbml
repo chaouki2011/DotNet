@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UniversityDB1" Class="UniversityDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-7J9ODH9\SQLEXPRESS;Initial Catalog=UniversityDB1;Integrated Security=True" SettingsObjectName="LinqExercices.Properties.Settings" SettingsPropertyName="UniversityDB1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Module" Member="Modules">
+    <Type Name="Module">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="nbHours" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Module_TeacherModule" Member="TeacherModules" ThisKey="id" OtherKey="IdModule" Type="TeacherModule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="bithday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="photo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Student_StudentModule" Member="StudentModules" ThisKey="id" OtherKey="IdStudent" Type="StudentModule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StudentModule" Member="StudentModules">
+    <Type Name="StudentModule">
+      <Column Name="IdStudent" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IdTeacher" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="year" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="average" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Student_StudentModule" Member="Student" ThisKey="IdStudent" OtherKey="id" Type="Student" IsForeignKey="true" />
+      <Association Name="Teacher_StudentModule" Member="Teacher" ThisKey="IdTeacher" OtherKey="id" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teacher" Member="Teachers">
+    <Type Name="Teacher">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="grade" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Teacher_StudentModule" Member="StudentModules" ThisKey="id" OtherKey="IdTeacher" Type="StudentModule" />
+      <Association Name="Teacher_TeacherModule" Member="TeacherModules" ThisKey="id" OtherKey="IdTeacher" Type="TeacherModule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TeacherModule" Member="TeacherModules">
+    <Type Name="TeacherModule">
+      <Column Name="IdTeacher" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IdModule" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NbHours" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Module_TeacherModule" Member="Module" ThisKey="IdModule" OtherKey="id" Type="Module" IsForeignKey="true" />
+      <Association Name="Teacher_TeacherModule" Member="Teacher" ThisKey="IdTeacher" OtherKey="id" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
